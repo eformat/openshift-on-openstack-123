@@ -113,14 +113,14 @@ resources:
   root_volume:
     type: OS::Cinder::Volume
     properties:
-      size: 30
+      size: 20
       image: {get_param: image}
       availability_zone: nova
 
   docker_volume:
     type: OS::Cinder::Volume
     properties:
-      size: 25
+      size: 10
       availability_zone: nova
 
   volume_attachment:

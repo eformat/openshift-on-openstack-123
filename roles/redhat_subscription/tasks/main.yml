@@ -1,4 +1,4 @@
-- name: check if host already registered
+- name: Check if host already registered
   command: subscription-manager list --available --match-installed --matches=*Openshift* --pool-only
   register: subs_result
   failed_when: false
@@ -41,9 +41,16 @@
   delay: 5
   when: subscribe_user.changed or subscribe_activation_key.changed
 
+- name: Build command line for repos to enable
+  set_fact:
+    repos_params: "{{ repos_params|default('') }} --enable={{ item }}"
+  with_items:
+  - "{{repos}}"
+
 - name: Enable correct repos
-  command: "subscription-manager repos --enable={{item}}"
-  when: subscribe_user.changed or subscribe_activation_key.changed
+  command: "subscription-manager repos {{ repos_params }}"
+  when:
+  - repos_params is defined
+  - repos_params|trim != ''
   retries: 5
   delay: 5
-  with_items: "{{repos}}"

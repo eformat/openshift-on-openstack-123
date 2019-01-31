@@ -16,8 +16,6 @@
 
   tasks:
   - import_role:
-      name: osp-stack-create
-  - import_role:
       name: osp-inventory
 
 - name: Configure OpenStack Client on Bastion
@@ -36,4 +34,3 @@
 
   - import_role:
       name: bastion-prep
-
